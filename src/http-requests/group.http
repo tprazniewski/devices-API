@@ -1,0 +1,15 @@
+GET http://localhost:666/api/get/13
+Content-Type: application/json
+
+POST http://localhost:666/api/add-to-group
+Content-Type: application/json
+{
+    "groupId": 13, 
+    "device": {
+        "name": "group1",
+        "files": [
+            "test-file.pdf"
+        ],
+        "id": 10
+    }
+}

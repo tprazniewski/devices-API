@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-
+var AutoIncrement = require("mongoose-sequence")(mongoose);
+var uniqueValidator = require("mongoose-unique-validator");
 const deviceSchema = mongoose.Schema({
-  id: { type: Number },
   files: [{ type: String }],
 });
 

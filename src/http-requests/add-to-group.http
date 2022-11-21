@@ -1,15 +1,14 @@
-GET http://localhost:666/api/get/13
+GET http://localhost:666/api/get/637b64242ee4e39bdea5fb85
 Content-Type: application/json
 
 POST http://localhost:666/api/add-to-group
 Content-Type: application/json
 {
-    "groupId": 13, 
+    "groupId":"637b64242ee4e39bdea5fb86", 
     "device": {
-        "name": "group1",
+        // "name": "group1",
         "files": [
             "test-file.pdf"
-        ],
-        "id": 10
+        ]
     }
 }

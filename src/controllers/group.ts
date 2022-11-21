@@ -1,12 +1,25 @@
 import { RequestHandler } from "express";
+import { validationResult } from "express-validator";
+import { addToGroup as add, get as getGroups } from "../services.ts/group";
 
 const addToGroup: RequestHandler = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).send(errors.array());
+
   const { device, groupId } = req.body;
+  const resp = await add({ device, groupId });
+
   res.send({ messasge: "added" }).status(201);
 };
 
 const get: RequestHandler = async (req, res) => {
-  const { groupIds } = req.params;
-  res.send({ message: "get aLL" }).status(200);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).send(errors.array());
+  // const groupId: number = parseInt(req.params.groupId as string);
+  const groupId: string = req.params.groupId;
+  console.log();
+  const resp = await getGroups([groupId]);
+
+  res.send(resp).status(200);
 };
 export default { addToGroup, get };

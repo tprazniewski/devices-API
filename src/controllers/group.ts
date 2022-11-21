@@ -9,7 +9,7 @@ const addToGroup: RequestHandler = async (req, res) => {
   const { device, groupId } = req.body;
   const resp = await add({ device, groupId });
 
-  res.send({ messasge: "added" }).status(201);
+  res.status(resp.status).send(resp.obj);
 };
 
 const get: RequestHandler = async (req, res) => {
@@ -17,7 +17,6 @@ const get: RequestHandler = async (req, res) => {
   if (!errors.isEmpty()) return res.status(400).send(errors.array());
   // const groupId: number = parseInt(req.params.groupId as string);
   const groupId: string = req.params.groupId;
-  console.log();
   const resp = await getGroups([groupId]);
 
   res.send(resp).status(200);

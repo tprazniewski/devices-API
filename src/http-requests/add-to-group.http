@@ -8,6 +8,7 @@ Content-Type: application/json
     "device": {
         // "name": "group1",
         "files": [
+            "test-file.pdf",
             "test-file.pdf2"
         ]
     }

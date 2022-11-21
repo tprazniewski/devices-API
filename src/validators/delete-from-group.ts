@@ -1,30 +1,12 @@
 import { RequestHandler } from "express";
 
-export const addToGroupValidator: RequestHandler = (req, res, next) => {
-  const { groupId, device } = req.body;
+export const deleteFromGroupValidator: RequestHandler = (req, res, next) => {
+  const { groupId, deviceId } = req.body;
 
-  if (!groupId || !device) {
-    return res.status(404).send({ message: "groupId or device is empty  " });
-  }
-
-  if (!device.files) {
-    return res.send({ message: "files field is not included in device" });
-  }
-
-  if (!(device.files instanceof Array)) {
-    return res.send({
-      message: "files is not an instance of Array ",
-    });
-  }
-
-  if (device.files.length === 0) {
-    return res.send({ message: "files field is empty" });
-  }
-
-  if (!groupId) {
+  if (!groupId && !deviceId) {
     return res.status(404).send({ message: "groupId and deviceId is empty  " });
   }
-  if (typeof groupId !== "string") {
+  if (typeof groupId !== "string" || typeof deviceId !== "string") {
     return res
       .status(404)
       .send({ message: "groupId && deviceId must be a type of a string" });
@@ -36,6 +18,13 @@ export const addToGroupValidator: RequestHandler = (req, res, next) => {
     return res.status(404).send({ message: "groupId field is empty " });
   }
   if (groupId.length != 24) {
+    console.log("aha", groupId.length);
+    return res.status(404).send({ message: "groupId field is invalid" });
+  }
+  if (!deviceId) {
+    return res.status(404).send({ message: "deviceId field is empty " });
+  }
+  if (deviceId.length != 24) {
     console.log("aha", groupId.length);
     return res.status(404).send({ message: "groupId field is invalid" });
   }

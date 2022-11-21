@@ -1,18 +1,15 @@
 import { Router } from "express";
 import { groupController } from "../controllers";
-import {
-  if_files_exist,
-  if_name_or_groupId_exist,
-  is_groupId,
-} from "../validators/add-to-group";
+
+import { deleteFromGroupValidator } from "../validators/delete-from-group";
+import { addToGroupValidator } from "../validators/add-to-group";
 const router = Router();
 
-router.post(
-  "/add-to-group",
-  if_files_exist,
-  if_name_or_groupId_exist,
-  groupController.addToGroup
+router.post("/add-to-group", addToGroupValidator, groupController.addToGroup);
+router.delete(
+  "/delete-from-group",
+  deleteFromGroupValidator,
+  groupController.deleteFromGroup
 );
-router.delete("/delete-from-group", groupController.deleteFromGroup);
-router.get("/get/:groupId", is_groupId, groupController.get);
+router.get("/get/:groupId", groupController.get);
 export default router;

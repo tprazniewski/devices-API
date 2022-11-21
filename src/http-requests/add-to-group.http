@@ -18,3 +18,9 @@ Content-Type: application/json
         ]
     }
 }
+DELETE http://localhost:666/api/delete-from-group
+Content-Type: application/json
+{
+    "groupId":"637b779889f053dd70d2d35c", 
+    "deviceId": "637b779889f053dd70d2d359"
+    }

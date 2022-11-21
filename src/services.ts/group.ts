@@ -38,4 +38,30 @@ export const get = async (groupId: string[]) => {
   return { message: "ID not found" };
 };
 
+export const remove = async ({
+  deviceId,
+  groupId,
+}: {
+  deviceId: string;
+  groupId: string;
+}) => {
+  const isGroup = await GroupModel.findById(groupId);
+  if (!isGroup) {
+    return { obj: { message: "Group wasn't found" }, status: 202 };
+  } else {
+    // findOneAndUpadte doesn't consider required: true  in the model ;'/
+    const groupRes = await GroupModel.findOneAndUpdate(
+      {
+        _id: groupId,
+      },
+      { $pull: { devices: deviceId } },
+      { upsert: true, new: true }
+    );
+    if (groupRes.devices.length === 0) {
+      await GroupModel.deleteOne({ _id: groupId });
+    }
+    return { obj: groupRes, status: 204 };
+  }
+};
+
 export default { addToGroup };

@@ -13,5 +13,6 @@ router.post(
   if_name_or_groupId_exist,
   groupController.addToGroup
 );
+router.delete("/delete-from-group", groupController.deleteFromGroup);
 router.get("/get/:groupId", is_groupId, groupController.get);
 export default router;

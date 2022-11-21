@@ -1,6 +1,10 @@
 import { RequestHandler } from "express";
 import { validationResult } from "express-validator";
-import { addToGroup as add, get as getGroups } from "../services.ts/group";
+import {
+  addToGroup as add,
+  get as getGroups,
+  remove,
+} from "../services.ts/group";
 
 const addToGroup: RequestHandler = async (req, res) => {
   const errors = validationResult(req);
@@ -21,4 +25,14 @@ const get: RequestHandler = async (req, res) => {
 
   res.send(resp).status(200);
 };
-export default { addToGroup, get };
+
+const deleteFromGroup: RequestHandler = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).send(errors.array());
+
+  const { deviceId, groupId } = req.body;
+  const resp = await remove({ deviceId, groupId });
+
+  res.status(200).send(resp);
+};
+export default { addToGroup, get, deleteFromGroup };

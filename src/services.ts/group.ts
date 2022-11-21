@@ -26,18 +26,16 @@ export const addToGroup = async ({
     );
     return { obj: groupRes, status: 204 };
   }
-
-  // const test = await GroupModel.find({ _id: groupRes._id });
 };
 
 export const get = async (groupId: string[]) => {
-  const groups = await GroupModel.findOne({ id: groupId });
+  const groups = await GroupModel.findOne({ _id: groupId });
   if (groups) {
     const devices = await DeviceModel.find({ $in: groups.devices });
     const files = devices?.map((d: any) => d.files)?.flat();
     return Array.from(new Set(files));
   }
-  return [];
+  return { message: "ID not found" };
 };
 
 export default { addToGroup };

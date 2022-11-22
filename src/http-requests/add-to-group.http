@@ -4,16 +4,11 @@ Content-Type: application/json
 POST http://localhost:666/api/add-to-group
 Content-Type: application/json
 {
-    "groupId":"637b779889f053dd70d2d35c", 
+    "groupId":"637c93b319cfb8713243d0ab", 
     "device": {
         // "name": "group1",
         "files": [
-            "test-file1.pdf",
-            "test-file2.pdf",
-            "test-file3.pdf",
-            "test-file4.pdf",
-            "test-file5.pdf",
-            "test-file6.pdf"
+            "test-file2.pdf"
             
         ]
     }
@@ -21,6 +16,6 @@ Content-Type: application/json
 DELETE http://localhost:666/api/delete-from-group
 Content-Type: application/json
 {
-    "groupId":"637b779889f053dd70d2d35c", 
+    "groupId":"637c93b319cfb8713243d0ab", 
     "deviceId": "637b779889f053dd70d2d359"
     }

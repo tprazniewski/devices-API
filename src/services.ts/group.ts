@@ -24,6 +24,7 @@ export const addToGroup = async ({
       { $push: { devices: deviceRes._id } },
       { upsert: true, new: true }
     );
+    console.log(groupRes);
     return { obj: groupRes, status: 204 };
   }
 };
@@ -35,7 +36,7 @@ export const get = async (groupId: string[]) => {
     const files = devices?.map((d: any) => d.files)?.flat();
     return Array.from(new Set(files));
   }
-  return { message: "ID not found" };
+  return { obj: { message: "ID not found" }, status: 400 };
 };
 
 export const remove = async ({
@@ -60,7 +61,7 @@ export const remove = async ({
     if (groupRes.devices.length === 0) {
       await GroupModel.deleteOne({ _id: groupId });
     }
-    return { obj: groupRes, status: 204 };
+    return { obj: groupRes, status: 201 };
   }
 };
 

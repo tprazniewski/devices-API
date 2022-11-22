@@ -12,8 +12,8 @@ const addToGroup: RequestHandler = async (req, res) => {
 
   const { device, groupId } = req.body;
   const resp = await add({ device, groupId });
-
-  res.status(resp.status).send(resp.obj);
+  console.log(typeof resp.status);
+  res.status(201).send(resp.obj);
 };
 
 const get: RequestHandler = async (req, res) => {
@@ -23,7 +23,7 @@ const get: RequestHandler = async (req, res) => {
   const groupId: string = req.params.groupId;
   const resp = await getGroups([groupId]);
 
-  res.send(resp).status(200);
+  res.send({ resp });
 };
 
 const deleteFromGroup: RequestHandler = async (req, res) => {
@@ -32,7 +32,6 @@ const deleteFromGroup: RequestHandler = async (req, res) => {
 
   const { deviceId, groupId } = req.body;
   const resp = await remove({ deviceId, groupId });
-
-  res.status(200).send(resp);
+  return res.status(resp.status).send(resp.obj);
 };
 export default { addToGroup, get, deleteFromGroup };

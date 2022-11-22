@@ -7,30 +7,35 @@ import {
 } from "../services.ts/group";
 
 const addToGroup: RequestHandler = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).send(errors.array());
-
   const { device, groupId } = req.body;
-  const resp = await add({ device, groupId });
-  res.status(201).send(resp.obj);
+  try {
+    const resp = await add({ device, groupId });
+    res.status(201).send(resp.obj);
+  } catch (error) {
+    res.status(502).send({ messagE: " Something Went Wrong druring adding" });
+  }
 };
 
 const get: RequestHandler = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).send(errors.array());
   // const groupId: number = parseInt(req.params.groupId as string);
   const groupId: string = req.params.groupId;
-  const resp = await getGroups([groupId]);
+  try {
+    const resp = await getGroups([groupId]);
 
-  res.send({ resp });
+    res.send({ resp });
+  } catch (error) {
+    res.status(502).send({ messagE: " Something Went Wrong during getting" });
+  }
 };
 
 const deleteFromGroup: RequestHandler = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).send(errors.array());
-
   const { deviceId, groupId } = req.body;
-  const resp = await remove({ deviceId, groupId });
-  return res.status(resp.status).send(resp.obj);
+
+  try {
+    const resp = await remove({ deviceId, groupId });
+    return res.status(resp.status).send(resp.obj);
+  } catch (error) {
+    res.status(502).send({ messagE: " Something Went Wrong during deletion" });
+  }
 };
 export default { addToGroup, get, deleteFromGroup };

@@ -1,10 +1,14 @@
 import { RequestHandler } from "express";
 
 export const addToGroupValidator: RequestHandler = (req, res, next) => {
-  const { groupId, device } = req.body;
+  const { groupId, device, name } = req.body;
 
-  if (!groupId || !device) {
-    return res.status(404).send({ message: "groupId or device is empty  " });
+  if (!name && !groupId) {
+    return res.status(404).send({ message: "Name and GroupId are empty " });
+  }
+
+  if (!device) {
+    return res.status(404).send({ message: " device is empty  " });
   }
 
   if (!device.files) {
@@ -22,7 +26,7 @@ export const addToGroupValidator: RequestHandler = (req, res, next) => {
   }
 
   if (!groupId) {
-    return res.status(404).send({ message: "groupId and deviceId is empty  " });
+    return res.status(404).send({ message: "groupId  is empty  " });
   }
   if (typeof groupId !== "string") {
     return res

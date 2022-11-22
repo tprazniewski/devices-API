@@ -12,7 +12,6 @@ const addToGroup: RequestHandler = async (req, res) => {
 
   const { device, groupId } = req.body;
   const resp = await add({ device, groupId });
-  console.log(typeof resp.status);
   res.status(201).send(resp.obj);
 };
 

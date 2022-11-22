@@ -1,11 +1,13 @@
 import GroupModel from "../models/group";
 import DeviceModel from "../models/device";
+import { IDevice } from "../interfaces/IDevice";
+import { IDeviceModel } from "../interfaces/IDeviceModel";
 
 export const addToGroup = async ({
   device,
   groupId,
 }: {
-  device: any;
+  device: IDevice;
   groupId: string;
 }) => {
   const deviceRes = await DeviceModel.create(device);
@@ -24,7 +26,6 @@ export const addToGroup = async ({
       { $push: { devices: deviceRes._id } },
       { upsert: true, new: true }
     );
-    console.log(groupRes);
     return { obj: groupRes, status: 204 };
   }
 };
@@ -33,7 +34,7 @@ export const get = async (groupId: string[]) => {
   const groups = await GroupModel.findOne({ _id: groupId });
   if (groups) {
     const devices = await DeviceModel.find({ $in: groups.devices });
-    const files = devices?.map((d: any) => d.files)?.flat();
+    const files = devices?.map((d: IDeviceModel) => d.files)?.flat();
     return Array.from(new Set(files));
   }
   return { obj: { message: "ID not found" }, status: 400 };

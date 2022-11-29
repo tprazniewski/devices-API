@@ -38,7 +38,7 @@ export const get = async (groupId: string[]) => {
   try {
     const groups = await GroupModel.findOne({ _id: groupId });
     if (groups) {
-      const devices = await DeviceModel.find({ $in: groups.devices });
+      const devices = await DeviceModel.find({ _id: { $in: groups.devices } });
       const files = devices?.map((d: IDeviceModel) => d.files)?.flat();
       return Array.from(new Set(files));
     }

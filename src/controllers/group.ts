@@ -17,7 +17,6 @@ const addToGroup: RequestHandler = async (req, res) => {
 };
 
 const get: RequestHandler = async (req, res) => {
-  // const groupId: number = parseInt(req.params.groupId as string);
   const groupId: string = req.params.groupId;
   try {
     const resp = await getGroups([groupId]);

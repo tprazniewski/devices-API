@@ -4,7 +4,8 @@ Content-Type: application/json
 POST http://localhost:666/api/add-to-group
 Content-Type: application/json
 {
-    "groupId":"6387f339000bf7ae231b79f1", 
+    // "groupId":"6387fcaf0f32feabcb1f438f",
+    "name": "group", 
     "device": {
         // "name": "group1",
         "files": [
@@ -16,6 +17,6 @@ Content-Type: application/json
 DELETE http://localhost:666/api/delete-from-group
 Content-Type: application/json
 {
-    "name":"Group", 
-    "deviceId": "6387f33c000bf7ae231b79f9"
+    "name":"group", 
+    "deviceId": "6387fd780b60a2f612e23e4f"
     }

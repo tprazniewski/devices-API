@@ -17,7 +17,6 @@ export const addToGroup = async ({
     const isGroup = await GroupModel.findOne(
       groupId ? { _id: groupId } : { name }
     );
-    // const found = await this.groupModel.findOne({ _id });
 
     if (!isGroup) {
       const groupRes = await GroupModel.create(
@@ -25,26 +24,13 @@ export const addToGroup = async ({
       );
       return { obj: groupRes, status: 201 };
     } else {
-      // findOneAndUpadte doesn't consider required: true  in the model ;'/
-      if (name) {
-        const groupRes = await GroupModel.findOneAndUpdate(
-          {
-            name,
-          },
-          { $push: { devices: deviceRes._id } },
-          { upsert: true, new: true }
-        );
-        return { obj: groupRes, status: 204 };
-      } else {
-        const groupRes = await GroupModel.findOneAndUpdate(
-          {
-            _id: groupId,
-          },
-          { $push: { devices: deviceRes._id } },
-          { upsert: true, new: true }
-        );
-        return { obj: groupRes, status: 204 };
-      }
+      const query = name ? { name: name } : { _id: groupId };
+      const groupRes = await GroupModel.findOneAndUpdate(
+        query,
+        { $push: { devices: deviceRes._id } },
+        { upsert: true, new: true }
+      );
+      return { obj: groupRes, status: 204 };
     }
   } catch (error) {
     return { obj: { mesage: " Error during DB operations" }, status: 500 };
@@ -82,32 +68,18 @@ export const remove = async ({
       return { obj: { message: "Group wasn't found" }, status: 202 };
     } else {
       // findOneAndUpadte doesn't consider required: true  in the model ;'/
-      if (name) {
-        const groupRes = await GroupModel.findOneAndUpdate(
-          {
-            name,
-          },
-          { $pull: { devices: deviceId } },
-          { upsert: true, new: true }
-        );
-        if (groupRes.devices.length === 0) {
-          await GroupModel.deleteOne({ _id: groupId });
-        }
-        return { obj: groupRes, status: 201 };
-      } else {
-        const groupRes = await GroupModel.findOneAndUpdate(
-          {
-            _id: groupId,
-          },
-          { $pull: { devices: deviceId } },
-          { upsert: true, new: true }
-        );
+      const query = name ? { name: name } : { _id: groupId };
 
-        if (groupRes.devices.length === 0) {
-          await GroupModel.deleteOne({ _id: groupId });
-        }
-        return { obj: groupRes, status: 201 };
+      const groupRes = await GroupModel.findOneAndUpdate(
+        query,
+        { $pull: { devices: deviceId } },
+        { upsert: true, new: true }
+      );
+
+      if (groupRes.devices.length === 0) {
+        await GroupModel.deleteOne(groupId ? { _id: groupId } : { name });
       }
+      return { obj: groupRes, status: 201 };
     }
   } catch (error) {
     return { obj: { mesage: " Error during DB operations" }, status: 500 };

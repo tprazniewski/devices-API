@@ -29,10 +29,10 @@ const get: RequestHandler = async (req, res) => {
 };
 
 const deleteFromGroup: RequestHandler = async (req, res) => {
-  const { deviceId, groupId } = req.body;
+  const { deviceId, groupId, name } = req.body;
 
   try {
-    const resp = await remove({ deviceId, groupId });
+    const resp = await remove({ deviceId, groupId, name });
     return res.status(resp.status).send(resp.obj);
   } catch (error) {
     res.status(502).send({ messagE: " Something Went Wrong during deletion" });

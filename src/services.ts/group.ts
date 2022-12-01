@@ -68,27 +68,46 @@ export const get = async (groupId: string[]) => {
 export const remove = async ({
   deviceId,
   groupId,
+  name,
 }: {
   deviceId: string;
   groupId: string;
+  name: string;
 }) => {
   try {
-    const isGroup = await GroupModel.findById(groupId);
+    const isGroup = await GroupModel.findOne(
+      groupId ? { _id: groupId } : { name }
+    );
     if (!isGroup) {
       return { obj: { message: "Group wasn't found" }, status: 202 };
     } else {
       // findOneAndUpadte doesn't consider required: true  in the model ;'/
-      const groupRes = await GroupModel.findOneAndUpdate(
-        {
-          _id: groupId,
-        },
-        { $pull: { devices: deviceId } },
-        { upsert: true, new: true }
-      );
-      if (groupRes.devices.length === 0) {
-        await GroupModel.deleteOne({ _id: groupId });
+      if (name) {
+        const groupRes = await GroupModel.findOneAndUpdate(
+          {
+            name,
+          },
+          { $pull: { devices: deviceId } },
+          { upsert: true, new: true }
+        );
+        if (groupRes.devices.length === 0) {
+          await GroupModel.deleteOne({ _id: groupId });
+        }
+        return { obj: groupRes, status: 201 };
+      } else {
+        const groupRes = await GroupModel.findOneAndUpdate(
+          {
+            _id: groupId,
+          },
+          { $pull: { devices: deviceId } },
+          { upsert: true, new: true }
+        );
+
+        if (groupRes.devices.length === 0) {
+          await GroupModel.deleteOne({ _id: groupId });
+        }
+        return { obj: groupRes, status: 201 };
       }
-      return { obj: groupRes, status: 201 };
     }
   } catch (error) {
     return { obj: { mesage: " Error during DB operations" }, status: 500 };

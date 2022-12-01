@@ -4,7 +4,7 @@ Content-Type: application/json
 POST http://localhost:666/api/add-to-group
 Content-Type: application/json
 {
-    "groupId":"637c93b319cfb8713243d0ab", 
+    "groupId":"6387f339000bf7ae231b79f1", 
     "device": {
         // "name": "group1",
         "files": [

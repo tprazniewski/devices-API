@@ -2,32 +2,49 @@ import GroupModel from "../models/group";
 import DeviceModel from "../models/device";
 import { IDevice } from "../interfaces/IDevice";
 import { IDeviceModel } from "../interfaces/IDeviceModel";
-
 export const addToGroup = async ({
   device,
   groupId,
+  name,
 }: {
   device: IDevice;
   groupId: string;
+  name: string;
 }) => {
   try {
     const deviceRes = await DeviceModel.create(device);
 
-    const isGroup = await GroupModel.findById(groupId);
+    const isGroup = await GroupModel.findOne(
+      groupId ? { _id: groupId } : { name }
+    );
+    // const found = await this.groupModel.findOne({ _id });
 
     if (!isGroup) {
-      const groupRes = await GroupModel.create({ devices: deviceRes._id });
+      const groupRes = await GroupModel.create(
+        name ? { devices: deviceRes._id, name } : { devices: deviceRes._id }
+      );
       return { obj: groupRes, status: 201 };
     } else {
       // findOneAndUpadte doesn't consider required: true  in the model ;'/
-      const groupRes = await GroupModel.findOneAndUpdate(
-        {
-          _id: groupId,
-        },
-        { $push: { devices: deviceRes._id } },
-        { upsert: true, new: true }
-      );
-      return { obj: groupRes, status: 204 };
+      if (name) {
+        const groupRes = await GroupModel.findOneAndUpdate(
+          {
+            name,
+          },
+          { $push: { devices: deviceRes._id } },
+          { upsert: true, new: true }
+        );
+        return { obj: groupRes, status: 204 };
+      } else {
+        const groupRes = await GroupModel.findOneAndUpdate(
+          {
+            _id: groupId,
+          },
+          { $push: { devices: deviceRes._id } },
+          { upsert: true, new: true }
+        );
+        return { obj: groupRes, status: 204 };
+      }
     }
   } catch (error) {
     return { obj: { mesage: " Error during DB operations" }, status: 500 };

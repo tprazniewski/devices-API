@@ -7,9 +7,9 @@ import {
 } from "../services.ts/group";
 
 const addToGroup: RequestHandler = async (req, res) => {
-  const { device, groupId } = req.body;
+  const { device, groupId, name } = req.body;
   try {
-    const resp = await add({ device, groupId });
+    const resp = await add({ device, groupId, name });
     res.status(201).send(resp.obj);
   } catch (error) {
     res.status(502).send({ messagE: " Something Went Wrong druring adding" });

@@ -18,5 +18,5 @@ DELETE http://localhost:666/api/delete-from-group
 Content-Type: application/json
 {
     "name":"group", 
-    "deviceId": "6387fd780b60a2f612e23e4f"
+    "deviceId": "6387fd9d0b60a2f612e23e59"
     }

@@ -1,4 +1,5 @@
-GET http://localhost:666/api/get/637c93b319cfb8713243d0ab
+
+GET http://localhost:666/api/get/6391b4ad02b4f4d4a2920126
 Content-Type: application/json
 
 POST http://localhost:666/api/add-to-group
@@ -9,7 +10,7 @@ Content-Type: application/json
     "device": {
         // "name": "group1",
         "files": [
-            "test-file2.pdf"
+            "test-file3.pdf"
             
         ]
     }
@@ -18,5 +19,5 @@ DELETE http://localhost:666/api/delete-from-group
 Content-Type: application/json
 {
     "name":"group", 
-    "deviceId": "6387fd9d0b60a2f612e23e59"
+    "deviceId": "6391b4d402b4f4d4a2920132"
     }

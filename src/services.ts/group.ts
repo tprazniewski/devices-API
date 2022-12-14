@@ -43,6 +43,8 @@ export const get = async (groupId: string[]) => {
     if (groups) {
       const devices = await DeviceModel.find({ _id: { $in: groups.devices } });
       const files = devices?.map((d: IDeviceModel) => d.files)?.flat();
+      console.log(files);
+      console.log(new Set(files));
       return Array.from(new Set(files));
     }
     return { obj: { message: "ID not found" }, status: 400 };
